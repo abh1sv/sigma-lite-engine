@@ -1,0 +1,19 @@
+title: Windows Security Audit Log Cleared
+id: 9d6f3b14-2e5a-4c8d-b1f0-3a4b5c6d7e8f
+status: production
+description: Detects clearing of the Windows Security Event Log, commonly performed by attackers to cover tracks post-compromise.
+author: Abhijith S V
+date: 2026-11-25
+tags:
+  - attack.defense_evasion
+  - attack.t1070.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 1102
+  condition: selection
+level: critical
+falsepositives:
+  - Authorized log rotation or forensic archiving by SOC administrators

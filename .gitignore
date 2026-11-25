@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+config.yaml
+ioc_cache.db
+reports/*.md
+!reports/sample_incident_report.md

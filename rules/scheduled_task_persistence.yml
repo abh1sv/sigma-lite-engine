@@ -1,0 +1,27 @@
+title: Suspicious Scheduled Task Creation in User-Writable Path
+id: 7b4e1a82-9c3d-4e5f-8a1b-2c3d4e5f6a7b
+status: production
+description: Detects creation of a Windows Scheduled Task pointing to binaries or scripts inside Temp, AppData, or Public folders.
+author: Abhijith S V
+date: 2026-11-25
+tags:
+  - attack.persistence
+  - attack.t1053.005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4698
+    TaskContent|contains:
+      - '\AppData\'
+      - '\Temp\'
+      - '\Users\Public\'
+      - 'powershell.exe'
+      - 'cmd.exe'
+  filter:
+    SubjectUserName|endswith: '$'
+  condition: selection and not filter
+level: high
+falsepositives:
+  - Third-party software updaters running from AppData

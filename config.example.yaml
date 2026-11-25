@@ -1,0 +1,5 @@
+rules_dir: "rules"
+default_output_dir: "reports"
+cache_db: "ioc_cache.db"
+abuseipdb_api_key: "" # Paste your AbuseIPDB API key here and rename to config.yaml
+live_lookback_hours: 24

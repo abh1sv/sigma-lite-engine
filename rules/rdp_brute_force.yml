@@ -1,0 +1,24 @@
+title: Failed Remote or Network Logon Attempt (Brute Force Indicator)
+id: 5a2d8c91-1f4e-4b7a-9c3d-6e8f0a1b2c3d
+status: production
+description: Detects failed remote RDP (Type 10) or Network (Type 3) logon attempts indicative of password spraying or brute-force attacks.
+author: Abhijith S V
+date: 2026-11-25
+tags:
+  - attack.credential_access
+  - attack.t1110
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+    LogonType:
+      - '10'
+      - '3'
+  filter:
+    TargetUserName|endswith: '$'
+  condition: selection and not filter
+level: medium
+falsepositives:
+  - Misconfigured service accounts or expired cached credentials

